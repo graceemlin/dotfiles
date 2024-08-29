@@ -18,7 +18,7 @@
  '(custom-safe-themes
    '("afeb7b07dbc1a4cfadb24f3ef6c8cf5e63051bf76411779f03a0fe3aadc07768" "e7820b899036ae7e966dcaaec29fd6b87aef253748b7de09e74fdc54407a7a02" "18cf5d20a45ea1dff2e2ffd6fbcd15082f9aa9705011a3929e77129a971d1cb3" "f4038fbd8cfb731161a36ab07edf672af5d67cfd9dbe35be123ecdaefb04e1c9" "2415b0f51d27e127c8d0980865c79420bc0da21da68d019a09684856320f537f" "5bafdfa3e21f921abf9b9fd77e1e0ce032e62e3a6f8f13ec8ce7945727c654e9" "2628939b8881388a9251b1bb71bc9dd7c6cffd5252104f9ef236ddfd8dbbf74a" "ee29cabce91f27eb1f9540ceb2bb69b4c509cd5d3bb3e6d8ad3a4ab799ebf8f7" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "58c996beb973f7e988ee4fd21c367b7a5bbdb0622ddfbbd112672a7b4e3d3b81" default))
  '(doc-view-continuous t)
- '(initial-buffer-choice "~/foobar")
+ '(initial-buffer-choice "~/git")
  '(package-selected-packages
    '(nerd-icons package-lint zenburn-theme treemacs spinner rainbow-delimiters projectile package+ nano-theme nano-modeline moe-theme modus-themes melpa-upstream-visit material-theme moe-theme markdown-mode magit kaolin-themes go-mode geiser-stklos geiser-racket geiser-mit geiser-guile f company))
  '(tool-bar-mode nil))
