@@ -32,11 +32,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes '(modus-operandi-tinted))
  '(custom-safe-themes
-   '("712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" "afeb7b07dbc1a4cfadb24f3ef6c8cf5e63051bf76411779f03a0fe3aadc07768" "e7820b899036ae7e966dcaaec29fd6b87aef253748b7de09e74fdc54407a7a02" "18cf5d20a45ea1dff2e2ffd6fbcd15082f9aa9705011a3929e77129a971d1cb3" "f4038fbd8cfb731161a36ab07edf672af5d67cfd9dbe35be123ecdaefb04e1c9" "2415b0f51d27e127c8d0980865c79420bc0da21da68d019a09684856320f537f" "5bafdfa3e21f921abf9b9fd77e1e0ce032e62e3a6f8f13ec8ce7945727c654e9" "2628939b8881388a9251b1bb71bc9dd7c6cffd5252104f9ef236ddfd8dbbf74a" "ee29cabce91f27eb1f9540ceb2bb69b4c509cd5d3bb3e6d8ad3a4ab799ebf8f7" "90a6f96a4665a6a56e36dec873a15cbedf761c51ec08dd993d6604e32dd45940" "f149d9986497e8877e0bd1981d1bef8c8a6d35be7d82cba193ad7e46f0989f6a" "58c996beb973f7e988ee4fd21c367b7a5bbdb0622ddfbbd112672a7b4e3d3b81" default))
+   '("712dda0818312c175a60d94ba676b404fc815f8c7e6c080c9b4061596c60a1db" default))
  '(doc-view-continuous t)
  '(initial-buffer-choice "~/git")
  '(package-selected-packages
-   '(geiser nerd-icons package-lint zenburn-theme treemacs spinner rainbow-delimiters projectile package+ nano-theme nano-modeline moe-theme modus-themes melpa-upstream-visit material-theme moe-theme markdown-mode magit kaolin-themes go-mode geiser-stklos geiser-racket geiser-mit geiser-guile f company))
+   '(eat org-contrib auctex sml-mode sly lua-mode json-mode haskell-mode diff-hl consult corfu dape geiser nerd-icons package-lint zenburn-theme treemacs spinner rainbow-delimiters projectile package+ nano-theme nano-modeline moe-theme modus-themes melpa-upstream-visit material-theme moe-theme markdown-mode magit kaolin-themes go-mode geiser-stklos geiser-racket geiser-mit geiser-guile f company))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -81,10 +81,6 @@
 ;; Rainbow Delimiters
 (use-package rainbow-delimiters)
 
-;; Eglot (LSP)
-(use-package eglot
-  :hook ((c-mode c++-mode) . eglot-ensure))
-
 ;; Company (Completion)
 (use-package company
   :after lsp-mode
@@ -92,9 +88,13 @@
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.0))
 
+;; Eglot (LSP)
+(use-package eglot
+  :hook ((c-mode c++-mode) . eglot-ensure))
+
 ;; Powerline
 (use-package powerline
-  :demand t ;
+  :demand t
   :config
   (powerline-default-theme))
 
@@ -113,3 +113,59 @@
             (display-line-numbers-mode t)
             (company-mode)
             (rainbow-delimiters-mode)))
+
+;;; Package Configuration
+(use-package avy
+  :bind ("C-c z" . #'avy-goto-word-1))
+
+(use-package magit
+  :bind ("C-c g" . #'magit-status)
+  :config
+  (setq magit-diff-refine-hunk t))
+
+(use-package eat
+  :config
+  (setq eat-kill-buffer-on-exit t)
+  (setq eat-enable-mouse t))
+
+(use-package consult
+  :config
+  (setq read-buffer-completion-ignore-case t)
+  (setq read-file-name-completion-ignore-case t)
+  (setq completion-ignore-case t))
+
+(use-package diff-hl
+  :hook
+  (prog-mode . diff-hl-mode))
+
+(use-package auctex
+  :config
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq TeX-master nil)
+  :hook
+  (latex-mode . #'LaTeX-math-mode)
+  (latex-mode . #'reftex-mode))
+
+(use-package markdown-mode)
+
+(use-package org
+  :bind ("C-c l" . #'org-store-link)
+  :bind ("C-c a" . #'org-agenda))
+
+(use-package org-contrib)
+
+;;; Miscellaneous Options
+(setq-default major-mode
+              (lambda () ; guess major mode from file name
+                (unless buffer-file-name
+                  (let ((buffer-file-name (buffer-name)))
+                    (set-auto-mode)))))
+
+(setq confirm-kill-emacs #'yes-or-no-p)
+(setq window-resize-pixelwise t)
+(setq frame-resize-pixelwise t)
+(save-place-mode t)
+(savehist-mode t)
+(recentf-mode t)
+(defalias 'yes-or-no #'y-or-n-p)
