@@ -1,4 +1,3 @@
-;; Package Management
 (require 'package)
 
 (setq package-archives
@@ -13,10 +12,7 @@
 
 (require 'use-package)
 (setq use-package-always-ensure t)
-
-;; Basic settings
-(setq inhibit-startup-message t)
-         
+(setq inhibit-startup-message t)  
 (menu-bar-mode 1)              
 (auto-insert-mode t)
 (setq-default indent-tabs-mode t)
@@ -45,7 +41,6 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Auto-insert skeletons
 (eval-after-load 'autoinsert
   '(define-auto-insert
      '("\\.\\(CC?\\|cc\\|cxx\\|cpp\\|c++\\)\\'" . "C++ skeleton")
@@ -75,46 +70,34 @@
        > _ \n
        "}" > \n)))
 
-;; Geiser
 (setq geiser-mit-binary "/usr/bin/scheme")
 
-;; Rainbow Delimiters
 (use-package rainbow-delimiters)
 
-;; Company (Completion)
 (use-package company
   :after lsp-mode
   :config
   (setq company-minimum-prefix-length 1)
   (setq company-idle-delay 0.0))
 
-;; Eglot (LSP)
 (use-package eglot
   :hook ((c-mode c++-mode) . eglot-ensure))
 
-;; Powerline
 (use-package powerline
   :demand t
   :config
   (powerline-default-theme))
 
-;; Nerd Icons
 (use-package nerd-icons
   :ensure t)
 
-;; Treemacs
 (use-package treemacs
   :config
   (add-hook 'after-init-hook 'treemacs))
 
-;; Programming modes
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (display-line-numbers-mode t)
-            (company-mode)
-            (rainbow-delimiters-mode)))
+(use-package ace-window
+  :bind ("M-o" . #'ace-window))
 
-;;; Package Configuration
 (use-package avy
   :bind ("C-c z" . #'avy-goto-word-1))
 
@@ -155,9 +138,14 @@
 
 (use-package org-contrib)
 
-;;; Miscellaneous Options
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (display-line-numbers-mode t)
+            (company-mode)
+            (rainbow-delimiters-mode)))
+
 (setq-default major-mode
-              (lambda () ; guess major mode from file name
+              (lambda ()
                 (unless buffer-file-name
                   (let ((buffer-file-name (buffer-name)))
                     (set-auto-mode)))))
