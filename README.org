@@ -1,5 +1,5 @@
 #+title:        Personal Emacs(XWM) Writing Studio Configuration
-#+property:     header-args:elisp :tangle init1.el :comments yes :results silent :eval no
+#+property:     header-args:elisp :tangle init.el :comments yes :results silent :eval no
 #+startup:      content
 
 The complete and annotated standard configuration files for the Emacs Writing Studio (EWS) are accessible at https://github.com/pprevos/emacs-writing-studio. 
