@@ -2,7 +2,7 @@
 #+property:     header-args:elisp :tangle init.el :comments yes :results silent :eval no
 #+startup:      content
 
-The complete and annotated standard configuration files for the Emacs Writing Studio (EWS) are accessible at https://github.com/pprevos/emacs-writing-studio. 
+The complete standard configuration files for the Emacs Writing Studio (EWS) are available at https://github.com/pprevos/emacs-writing-studio. 
 
 To ensure ease of comprehension, the majority of the original annotations remain preserved within this document.
 
@@ -85,7 +85,7 @@ To read the finer details of the Use-Package macro, read the manual with =C-h R 
 
 ** EXWM Setup
 
-Through the integration of EXWM, Emacs is repurposed as a highly configurable tiling window manager.
+Through the integration of EXWM, Emacs is repurposed as a highly customizable tiling window manager.
 
 #+begin_src elisp :exports none
   ;; Enable exwm
