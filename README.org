@@ -12,7 +12,7 @@ Modifications to the original include:
 - LSP support for intelligent code completion
 - Workflow-specific optimizations
   
-The init.el file can be generated using =M-x org-babel-tangle= , and changes can be synchronized back to this document with =M-x org-babel-detangle=.
+The =init.el= file can be generated using =M-x org-babel-tangle= , and changes can be synchronized back to this document with =M-x org-babel-detangle=.
 
 #+begin_src elisp :exports none
   ;;; init.el --- Modified Emacs Writing Studio init -*- lexical-binding: t; -*-
