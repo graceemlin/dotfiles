@@ -146,6 +146,7 @@ This configuration uses personalized elisp functions to provide granular control
   (interactive)
   (start-process-shell-command
    "feh" nil  "feh --bg-scale background.jpg"))
+(set-wallpaper)
 #+end_src
 
 EXWM allows for keybinding customization with =exwm-input-global-keys=.
