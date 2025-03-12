@@ -142,7 +142,7 @@ This configuration uses personalized elisp functions to provide granular control
 (global-set-key (kbd "C-c t s") 'set-window-transparency)
 (global-set-key (kbd "C-c t a") 'toggle-frame-alpha-transparency)
 
-  (defun set-wallpaper ()
+(defun set-wallpaper ()
   (interactive)
   (start-process-shell-command
    "feh" nil  "feh --bg-scale background.jpg"))
