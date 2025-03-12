@@ -97,15 +97,50 @@ Through the integration of EXWM, Emacs is repurposed as a highly customizable ti
   (exwm-randr-enable)
 #+end_src
 
-This configuration uses =exwm-background.el= to provide granular control over window transparency in EXWM. The background image is set with feh.
+This configuration uses personalized elisp functions to provide granular control over window transparency in EXWM. The background image is set with feh.
 
 #+begin_src elisp :exports none
   ;; Loads EXWM background settings and defines a function to set the wallpaper using 'feh'.
 #+end_src  
 #+begin_src elisp
-  (setq-default bg-file (expand-file-name "exwm-background.el" user-emacs-directory))
-  (load bg-file :no-error-if-file-is-missing)
-  (require 'exwm-background)
+(set-frame-parameter nil 'alpha-background 75) 
+(add-to-list 'default-frame-alist '(alpha-background . 75))
+
+(defun increase-window-transparency ()
+  "Increase window alpha-background (make it less transparent)."
+  (interactive)
+  (let ((current-alpha (frame-parameter nil 'alpha-background)))
+    (if (< current-alpha 100)
+        (set-frame-parameter nil 'alpha-background (min 100 (+ current-alpha 5)))
+      (message "Alpha-background is already at maximum (100)."))))
+
+(defun decrease-window-transparency ()
+  "Decrease window alpha-background (make it more transparent)."
+  (interactive)
+  (let ((current-alpha (frame-parameter nil 'alpha-background)))
+    (if (> current-alpha 0)
+        (set-frame-parameter nil 'alpha-background (max 0 (- current-alpha 5)))
+      (message "Alpha-background is already at minimum (0)."))))
+
+(defun toggle-window-transparency ()
+  "Toggle transparency."
+  (interactive)
+  (let ((current-alpha (frame-parameter nil 'alpha-background)))
+    (if (= current-alpha 100)
+        (set-frame-parameter nil 'alpha-background 0)
+      (set-frame-parameter nil 'alpha-background 100))))
+
+(defun set-window-transparency (alpha)
+  "Set window alpha-background to ALPHA (0-100)."
+  (interactive "nAlpha-background (0-100): ")
+  (let ((alpha (max 0 (min 100 alpha))))
+    (set-frame-parameter nil 'alpha-background alpha)
+    (message "Alpha-background set to %d" alpha)))
+
+(global-set-key (kbd "C-c t i") 'increase-window-transparency)
+(global-set-key (kbd "C-c t d") 'decrease-window-transparency)
+(global-set-key (kbd "C-c t s") 'set-window-transparency)
+(global-set-key (kbd "C-c t a") 'toggle-frame-alpha-transparency)
 
   (defun set-wallpaper ()
   (interactive)
