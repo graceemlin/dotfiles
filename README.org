@@ -27,7 +27,7 @@ The =init.el= file can be generated using =M-x org-babel-tangle= , and changes c
   ;; (at your option) any later version.
   ;;
   ;; This program is distributed in the hope that it will be useful,
-  ;; but WITHOUT ANY WARRANTY; without even the implied waRranty of
+  ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
   ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
   ;; GNU General Public License for more details.
   ;;
@@ -49,6 +49,45 @@ This code block configures the default Emacs directory and launches the picom co
 #+begin_src elisp
   (setq default-directory "~/")
   (start-process "exec --no-startup-id picom -b" nil "picom")
+#+end_src
+
+This configuration uses personalized elisp functions to provide granular control over window transparency in EXWM.
+
+#+begin_src elisp :exports none
+  ;; Loads EXWM background settings
+#+end_src  
+#+begin_src elisp
+  (set-frame-parameter nil 'alpha-background 75)
+  (add-to-list 'default-frame-alist '(alpha-background . 75))
+
+  (defun increase-window-transparency () "Increase window alpha-background (make it less transparent)." (interactive) 
+         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
+           (if (< current-alpha 100) 
+               (set-frame-parameter nil 'alpha-background (min 100 (+ current-alpha 5))) 
+             (message "Alpha-background is already at maximum (100)."))))
+
+  (defun decrease-window-transparency () "Decrease window alpha-background (make it more transparent)." (interactive) 
+         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
+           (if (> current-alpha 0) 
+               (set-frame-parameter nil 'alpha-background (max 0 (- current-alpha 5))) 
+             (message "Alpha-background is already at minimum (0)."))))
+
+  (defun toggle-window-transparency () "Toggle transparency." (interactive) 
+         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
+           (if (= current-alpha 100) 
+               (set-frame-parameter nil 'alpha-background 0) 
+             (set-frame-parameter nil 'alpha-background 100))))
+
+  (defun set-window-transparency (alpha) "Set window alpha-background to ALPHA (0-100)." (interactive "nAlpha-background (0-100): ") 
+         (let ((alpha (max 0 (min 100 alpha)))) 
+           (set-frame-parameter nil 'alpha-background alpha) 
+           (message "Alpha-background set to %d" alpha)))
+
+  (global-set-key (kbd "C-c t i") 'increase-window-transparency)
+  (global-set-key (kbd "C-c t d") 'decrease-window-transparency)
+  (global-set-key (kbd "C-c t s") 'set-window-transparency)
+  (global-set-key (kbd "C-c t a") 'toggle-window-transparency)
+  (toggle-frame-maximized)
 #+end_src
 
 ** Emacs packages
@@ -82,106 +121,64 @@ To read the finer details of the Use-Package macro, read the manual with =C-h R 
 
 ** EXWM Setup
 
-Through the integration of EXWM, Emacs is repurposed as a highly customizable tiling window manager.
+Through the integration of EXWM, Emacs is repurposed as a highly customizable tiling window manager. EXWM allows for keybinding customization with =exwm-input-global-keys=.
 
 #+begin_src elisp :exports none
-  ;; Enable exwm
+  ;; Enable EXWM and configure EXWM Keybindings
 #+end_src  
 #+begin_src elisp
-  (use-package exwm)
-  (use-package exwm-randr)
-  (exwm-enable)
-  (exwm-randr-enable)
-#+end_src
-
-This configuration uses personalized elisp functions to provide granular control over window transparency in EXWM. The background image is set with feh.
-
-#+begin_src elisp :exports none
-  ;; Loads EXWM background settings and defines a function to set the wallpaper using 'feh'.
-#+end_src  
-#+begin_src elisp
-  (set-frame-parameter nil 'alpha-background 75)
-  (add-to-list 'default-frame-alist '(alpha-background . 75))
-
-  (defun increase-window-transparency () "Increase window alpha-background (make it less transparent)." (interactive) 
-         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
-           (if (< current-alpha 100) 
-               (set-frame-parameter nil 'alpha-background (min 100 (+ current-alpha 5))) 
-             (message "Alpha-background is already at maximum (100)."))))
-
-  (defun decrease-window-transparency () "Decrease window alpha-background (make it more transparent)." (interactive) 
-         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
-           (if (> current-alpha 0) 
-               (set-frame-parameter nil 'alpha-background (max 0 (- current-alpha 5))) 
-             (message "Alpha-background is already at minimum (0)."))))
-
-  (defun toggle-window-transparency () "Toggle transparency." (interactive) 
-         (let ((current-alpha (frame-parameter nil 'alpha-background))) 
-           (if (= current-alpha 100) 
-               (set-frame-parameter nil 'alpha-background 0) 
-             (set-frame-parameter nil 'alpha-background 100))))
-
-  (defun set-window-transparency (alpha) "Set window alpha-background to ALPHA (0-100)." (interactive "nAlpha-background (0-100): ") 
-         (let ((alpha (max 0 (min 100 alpha)))) 
-           (set-frame-parameter nil 'alpha-background alpha) 
-           (message "Alpha-background set to %d" alpha)))
-
-  (global-set-key (kbd "C-c t i") 'increase-window-transparency)
-  (global-set-key (kbd "C-c t d") 'decrease-window-transparency)
-  (global-set-key (kbd "C-c t s") 'set-window-transparency)
-  (global-set-key (kbd "C-c t a") 'toggle-window-transparency)
-
-  (defun set-wallpaper () 
-    (interactive) 
-    (start-process-shell-command "feh" nil  "feh --bg-scale ~/.emacs.d/background.jpg"))
-#+end_src
-
-EXWM allows for keybinding customization with =exwm-input-global-keys=.
-
-#+begin_src elisp :exports none
-  ;; EXWM Keybindings
-#+end_src  
-#+begin_src elisp
-  (setq exwm-input-global-keys `(([?\s-r] . exwm-reset)
-                                 ([?\s-s] . exwm-workspace-switch)
-                                 ([s-left] . windmove-left)
-                                 ([s-right] . windmove-right)
-                                 ([s-up] . windmove-up)
-                                 ([s-down] . windmove-down)
-                                 ,@(mapcar (lambda (i) 
-                                             `(,(kbd (format "s-%d" i)) . (lambda () 
-                                                                            (interactive) 
-                                                                            (exwm-workspace-switch-create ,i)))) 
-                                           (number-sequence 0 9))
-                                 ([?\s-&] . (lambda (command) 
-                                              (interactive (list (read-shell-command "$ "))) 
-                                              (start-process-shell-command command nil command)))
-                                 ([?\s-d] . (lambda () 
-                                              (interactive) 
-                                              (dired default-directory)))
-                                 ([?\s-b] . exwm-workspace-switch-to-buffer)
-                                 ([?\s-o] . (lambda () 
-                                              (interactive) 
-                                              (start-process "" nil "nyxt")))
-                                 ([?\s-x] . (lambda () 
-                                              (interactive) 
-                                              (start-process "" nil "st")))))
+  (if (y-or-n-p "Enable EXWM as your window manager? ")
+      (use-package exwm
+        :init
+        (setq exwm-input-global-keys `(([?\s-r] . exwm-reset)
+                                       ([?\s-s] . exwm-workspace-switch)
+                                       ([s-left] . windmove-left)
+                                       ([s-right] . windmove-right)
+                                       ([s-up] . windmove-up)
+                                       ([s-down] . windmove-down)
+                                       ,@(mapcar (lambda (i) 
+                                                   `(,(kbd (format "s-%d" i)) . (lambda () 
+                                                                                  (interactive) 
+                                                                                  (exwm-workspace-switch-create ,i)))) 
+                                                 (number-sequence 0 9))
+                                       ([?\s-&] . (lambda (command) 
+                                                    (interactive (list (read-shell-command "$ "))) 
+                                                    (start-process-shell-command command nil command)))
+                                       ([?\s-d] . (lambda () 
+                                                    (interactive) 
+                                                    (dired default-directory)))
+                                       ([?\s-b] . exwm-workspace-switch-to-buffer)
+                                       ([?\s-o] . (lambda () 
+                                                    (interactive) 
+                                                    (start-process "" nil "nyxt")))
+                                       ([?\s-x] . (lambda () 
+                                                    (interactive) 
+                                                    (start-process "" nil "st")))))
+        (exwm-enable)
+        :config
+        (exwm-randr-mode)
+        (exwm-workspace-switch-create 1))
+    (message "EXWM not enabled. Continuing with Emacs configuration."))
 #+end_src
 
 ** Look and feel
 
-Initializes the first workspace as a landing page, and sets up the exwm-modeline package.
+Initializes the first workspace as a landing page, and sets up the exwm-modeline package. The background image is set with feh.
 
 #+begin_src elisp :exports none
   ;;; LOOK AND FEEL
-  ;; EXWM appearance
+  ;; Improves EXWM appearance and defines a function to set the wallpaper using 'feh'.
 #+end_src
 #+begin_src elisp
-  (exwm-workspace-switch-create 1)
-  (exwm-input-set-key (kbd "s-f") 'exwm-layout-toggle-fullscreen)
-  (use-package exwm-modeline)
-  (exwm-modeline-mode 1)
+  (use-package exwm-modeline
+    :config
+    (exwm-modeline-mode 1))
   ;;(exwm-systemtray-mode 1)
+
+  (defun set-wallpaper () 
+    (interactive) 
+    (start-process-shell-command "feh" nil  "feh --bg-scale ~/.emacs.d/background.jpg"))
+  (set-wallpaper)
 #+end_src
 
 EWS espouses a minimalist aesthetic to provide a distraction-free environment. 
@@ -197,8 +194,6 @@ EWS espouses a minimalist aesthetic to provide a distraction-free environment.
   (setq-default indent-tabs-mode t)
   (setq-default tab-width 4)
   (setq display-line-numbers-mode t)
-  (toggle-frame-maximized)
-  (set-wallpaper)
 #+end_src
 
 I have modified the default configuration to include additional status indicators for use in EXWM.
@@ -234,9 +229,9 @@ This configuration also modifies the ~line-spacing~ variable to create some spac
   ;; Spacious padding
 #+end_src
 #+begin_src elisp
-  (use-package spacious-padding 
-    :custom (line-spacing 3) 
-    :init (spacious-padding-mode 1))
+  ;;(use-package spacious-padding 
+  ;; :custom (line-spacing 3) 
+  ;; :init (spacious-padding-mode 1))
 #+end_src
 
 The next package sets the Emacs theme. A theme is a set of configurations for fonts and colors. Themes are available in two types: light or dark background.
@@ -268,7 +263,8 @@ To set a default theme, run the ~customize-themes~ command and select your prefe
 
   (use-package ef-themes)
   ;;(load-theme 'ef-maris-light t)
-  (load-theme 'ef-winter t)
+  ;;(load-theme 'ef-winter t)
+  (load-theme 'ef-elea-dark t)
 #+end_src
 
 The next section hooks the Variable Pitch mode to any Org buffer. This means that written prose is displayed in variable pitch, while metadata, code and other items are in fixed pitch. A hook is a construction in Emacs that associates modes with each other. In this case, variable pitch text is enabled for all text mode buffers.
@@ -924,7 +920,7 @@ The Denote-Explore package provides convenience functions to manage your collect
            ("C-c w x s" . denote-explore-single-keywords) 
            ("C-c w x o" . denote-explore-sort-keywords) 
            ("C-c w x w" . denote-explore-rename-keyword)
-           ;; Visualise denote
+           ;; Visualize denote
            ("C-c w x n" . denote-explore-network) 
            ("C-c w x v" . denote-explore-network-regenerate) 
            ("C-c w x D" . denote-explore-degree-barchart)))
@@ -964,7 +960,7 @@ Undo-Tree provides a graphical view of the various versions of the current buffe
   (use-package undo-tree 
     :config (global-undo-tree-mode) 
     :custom (undo-tree-auto-save-history nil) 
-    :bind (("C-c w u" . undo-tree-visualise)))
+    :bind (("C-c w u" . undo-tree-visualize)))
 #+end_src
 
 ** Citations
