@@ -453,8 +453,21 @@ Jonas Bernoulli's Magit is an exceptionally useful git porcelain for Emacs.
   (use-package magit 
     :bind ("C-c g" . #'magit-status) 
     :config (setq magit-diff-refine-hunk t))
+#+end_src
 
-  (use-package diff-hl 
+The built-in Ediff package compares different files and shows their differences. It also lets you decide how to merge the two versions, like a tracked-changes function in a Word processor. The ~ediff~ family of functions does not split its windows nicely by default, so these settings make the program more straightforward to use.
+
+#+begin_src elisp :exports none
+  ;; ediff
+#+end_src
+#+begin_src elisp
+  (use-package ediff 
+    :ensure nil 
+    :custom (ediff-keep-variants nil) 
+    (ediff-split-window-function 'split-window-horizontally) 
+    (ediff-window-setup-function 'ediff-setup-windows-plain))
+
+ (use-package diff-hl 
     :hook (prog-mode . diff-hl-mode))
 #+end_src
 
@@ -1064,22 +1077,6 @@ The Lorem Ipsum generator can be helpful when designing a document's layout. Thi
     :custom (lorem-ipsum-list-bullet "- ") ;; Org mode bullets
     :init (setq lorem-ipsum-sentence-separator (if sentence-end-double-space "  " " ")) 
     :bind (("C-c w s i" . lorem-ipsum-insert-paragraphs)))
-#+end_src
-
-** Version control
-The built-in Ediff package compares different files and shows their differences. It also lets you decide how to merge the two versions, like a tracked-changes function in a Word processor. The ~ediff~ family of functions does not split its windows nicely by default, so these settings make the program more straightforward to use.
-
-Advanced version control requires a Version Control System, such as Git.
-
-#+begin_src elisp :exports none
-  ;; ediff
-#+end_src
-#+begin_src elisp
-  (use-package ediff 
-    :ensure nil 
-    :custom (ediff-keep-variants nil) 
-    (ediff-split-window-function 'split-window-horizontally) 
-    (ediff-window-setup-function 'ediff-setup-windows-plain))
 #+end_src
 
 ** Other text in modes
