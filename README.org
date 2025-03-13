@@ -333,7 +333,14 @@ This configuration streamlines Emacs navigation through the integration of Treem
 
   (use-package avy 
     :bind ("C-c z" . #'avy-goto-word-1))
+#+end_src
 
+The EXWM edit package facilitates seamless in-Emacs editing of text content from external applications.
+
+#+begin_src elisp :exports none
+  ;; Emacs editing in external programs
+#+end_src
+#+begin_src elisp
   (use-package exwm-edit)
 #+end_src
 
