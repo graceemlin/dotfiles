@@ -14,6 +14,10 @@ Modifications to the original include:
   
 The =init.el= file can be generated using =M-x org-babel-tangle= , and changes can be synchronized back to this document with =M-x org-babel-detangle=.
 
+Dependencies:
+- =picom= - a compositor for X, required for window transparency
+- =feh= - an image viewer used for setting the default background image
+
 #+begin_src elisp :exports none
   ;;; init.el --- Modified Emacs Writing Studio init -*- lexical-binding: t; -*-
   ;; Emacs Writing Studio (https://github.com/pprevos/emacs-writing-studio/) configuration for personal use.
@@ -41,7 +45,7 @@ The first part of this configuration covers package management, the user interfa
 
 ** Early init
 
-This code block configures the default Emacs directory and launches the picom compositor for visual effects.
+This code block configures the default Emacs directory and launches the picom compositor.
 
 #+begin_src elisp :exports none
   ;; Set the default Emacs directory and launch the 'picom' compositor.
