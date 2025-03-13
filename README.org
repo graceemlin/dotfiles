@@ -163,7 +163,7 @@ Through the integration of EXWM, Emacs is repurposed as a highly customizable ti
 
 ** Look and feel
 
-Initializes the first workspace as a landing page, and sets up the exwm-modeline package. The background image is set with feh.
+Initializes the first workspace as a landing page, and sets up the EXWM Modeline package. The background image is set with feh.
 
 #+begin_src elisp :exports none
   ;;; LOOK AND FEEL
