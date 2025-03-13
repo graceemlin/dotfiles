@@ -51,7 +51,9 @@ This code block configures the default Emacs directory and launches the picom co
   (start-process "exec --no-startup-id picom -b" nil "picom")
 #+end_src
 
-This configuration uses personalized elisp functions to provide granular control over window transparency in EXWM.
+** Emacs background settings
+
+This configuration uses personalized Emacs Lisp functions to provide granular control over window transparency in EXWM.
 
 #+begin_src elisp :exports none
   ;; Loads EXWM background settings
@@ -105,8 +107,6 @@ This part of the configuration sets the essential elements to load and install p
 
 John Wiegley's Use-Package simplifies installing and configuring packages with a standardized and easy-to-read method.
 
-The Use-Package system consists of a set of statements between parentheses, which is a macro. In its simplest form, it is something like ~(use-package <package-name>)~. The code can also contain one or more sections to set various options. The =:custom= section below sets three variables. These variables enact three protocols. Any missing package is automatically installed from its online source, and the source code is compiled to speed up Emacs. Thirdly, compilation warnings are kept to a minimum so as not to scare beginning users with log files.
-
 #+begin_src elisp :exports none
   ;; Package Management
 #+end_src
@@ -117,7 +117,7 @@ The Use-Package system consists of a set of statements between parentheses, whic
     (warning-minimum-level :emergency))
 #+end_src
 
-To read the finer details of the Use-Package macro, read the manual with =C-h R use-package=.
+To explore the finer details of the Use-Package macro, consult the manual with =C-h R use-package=.
 
 ** EXWM Setup
 
