@@ -426,6 +426,22 @@ Geiser is configured to interface with the MIT Scheme binary.
   (setq geiser-mit-binary "/usr/bin/scheme")
 #+end_src
 
+** LeetCode
+
+The Emacs LeetCode client allows you to solve LeetCode problems directly from within Emacs. I find it handy for organizing solution files.
+
+#+begin_src elisp :exports none
+  ;; LeetCode client setup
+#+end_src
+
+#+begin_src elisp
+(use-package leetcode)
+(setq leetcode-prefer-language "cpp")
+(setq leetcode-prefer-sql "mysql")
+(setq leetcode-save-solutions t)
+(setq leetcode-directory "~/leetcode")
+#+end_src
+
 ** Version Control
 
 Jonas Bernoulli's Magit is an exceptionally useful git porcelain for Emacs. 
