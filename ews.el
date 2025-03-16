@@ -9,7 +9,7 @@
 ;; Homepage: https://lucidmanager.org/tags/emacs/
 ;; URL: https://github.com/pprevos/emacs-writing-studio
 ;; 
-;; Modified by G.R. Emlin : March 2025
+;; Modified by G.R. Emlin: March 2025
 ;;
 ;; This file is NOT part of GNU Emacs.
 ;;
