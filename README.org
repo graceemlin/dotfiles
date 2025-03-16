@@ -21,7 +21,10 @@ Dependencies:
 #+begin_src elisp :exports none
   ;;; init.el --- Modified Emacs Writing Studio init -*- lexical-binding: t; -*-
   ;; Emacs Writing Studio (https://github.com/pprevos/emacs-writing-studio/) configuration for personal use.
-  ;; Modified by G.R. Emlin : March 2025
+  ;; Original annotations authored by Peter Prevos <peter@prevos.net> 
+  ;; URL: https://github.com/pprevos/emacs-writing-studio/
+  ;;
+  ;; Modified by G.R. Emlin: March 2025
   ;;
   ;; This file is NOT part of GNU Emacs.
   ;;
@@ -235,7 +238,7 @@ This configuration also modifies the ~line-spacing~ variable to create some spac
 #+end_src
 #+begin_src elisp
 (use-package spacious-padding 
-  :custom (line-spacing 3)
+  :custom (line-spacing 1)
   :init
   (setq spacious-padding-widths
         '(:right-divider-width 0
