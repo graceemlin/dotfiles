@@ -193,6 +193,7 @@ EWS espouses a minimalist aesthetic to provide a distraction-free environment.
 #+begin_src elisp
   (setq inhibit-startup-message t)
   (menu-bar-mode 1)
+  (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (auto-insert-mode t)
   (setq-default indent-tabs-mode t)
@@ -233,9 +234,13 @@ This configuration also modifies the ~line-spacing~ variable to create some spac
   ;; Spacious padding
 #+end_src
 #+begin_src elisp
-  ;;(use-package spacious-padding 
-  ;; :custom (line-spacing 3) 
-  ;; :init (spacious-padding-mode 1))
+(use-package spacious-padding 
+  :custom (line-spacing 3)
+  :init
+  (setq spacious-padding-widths
+        '(:right-divider-width 0
+          :internal-border-width 0))
+  (spacious-padding-mode 1))
 #+end_src
 
 The next package sets the Emacs theme. A theme is a set of configurations for fonts and colors. Themes are available in two types: light or dark background.
