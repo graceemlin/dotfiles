@@ -238,7 +238,7 @@ This configuration also modifies the ~line-spacing~ variable to create some spac
 #+end_src
 #+begin_src elisp
 (use-package spacious-padding 
-  :custom (line-spacing 1)
+  :custom (line-spacing 3)
   :init
   (setq spacious-padding-widths
         '(:right-divider-width 0
