@@ -195,7 +195,7 @@ EWS espouses a minimalist aesthetic to provide a distraction-free environment.
 #+end_src
 #+begin_src elisp
   (setq inhibit-startup-message t)
-  (menu-bar-mode 1)
+  (menu-bar-mode -1)
   (scroll-bar-mode -1)
   (tool-bar-mode -1)
   (auto-insert-mode t)
