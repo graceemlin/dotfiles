@@ -218,7 +218,7 @@ I have modified the default configuration to include additional status indicator
   (display-battery-mode 1)
 #+end_src
 
-Vanilla Emacs has the slightly paternalistic habit of requiring a single =y= or =n= answer, while on some occasions, it requires you to type =yes= or =no=, due to the perceived higher risk of typing the wrong answer. The ~setq~ function sets the ~use-short-answers~ variable to =t=. If you want to retain this behaviour, change the =t= to =nil=.
+The ~setq~ function sets the ~use-short-answers~ variable to =t=. If you want to retain the default behaviour of Vanilla Emacs, change the =t= to =nil=.
 
 In Emacs Lisp, =t= means TRUE and =nil= is equivalent to FALSE. Emacs documentation often mentions setting a value to "non-nil", which is a double negative to suggest setting the variable to true.
 
